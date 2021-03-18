@@ -1,0 +1,12 @@
+global_costmap :
+    update_frequency : 1
+    footprint_padding: 0.09
+
+    inflation_layer_global :
+        inflation_radius: 3.0 #2.0
+        cost_scaling_factor: 5.0
+
+    plugins:
+        - {name : static,                   type : "costmap_2d::StaticLayer"}
+        - {name : obstacle_layer,           type : "costmap_2d::ObstacleLayer"}
+        - {name : inflation_layer_global,   type : "costmap_2d::InflationLayer"}

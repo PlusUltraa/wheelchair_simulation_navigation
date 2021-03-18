@@ -1,0 +1,116 @@
+<launch>
+    <master auto="start"/>
+
+    <!--Arguments-->
+    <arg name="planner" default="teb"/>
+    <arg name="world"   default="LVL_Two.yaml"/>
+
+    <!-- Map Server -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find wheelchair_simulation_navegation)/maps/$(arg world)"/>
+
+    <!-- Localization -->
+    <node pkg="iris_lama_ros" type="loc2d_ros" name="local" output="screen">
+        <param name="scan_topic" value="scan"/>
+    </node>
+    <!--node pkg="iris_rtk_ros" type="loc2d_ros" name="local" output="screen">
+        <param name="scan_topic" value="scan"/>
+    </node-->
+    <!--node name="loc" pkg="amcl" type="amcl" output="screen">
+        <param name="scan" value="scan"/>
+        <rosparam file="$(find wheelchair_simulation_navegation)/params/amcl.yaml"/>
+        <remap from="amcl_pose" to="pose"/>
+    </node-->
+
+    <!-- move_base -->
+    <group if = "$(eval arg('planner') == 'teb')">
+        <node pkg="move_base" type="move_base" name="move_base" output="screen">
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/local_costmap_lidar_filtered.yaml" command="load"/>
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/global_costmap_lidar_filtered.yaml" command="load"/>
+
+            <!-- Local Planner -->
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/local_planner.yaml" command="load"/>
+            <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/>
+            <param name="controller_frequency" value="10.0"/>
+
+            <!--Global Planner-->
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/global_planner.yaml" command="load"/>
+            <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+            <param name ="planner_frequency" value="1.0"/>
+        </node>
+    </group>
+
+    <group if = "$(eval arg('planner') == 'dwa')">
+        <node pkg="move_base" type="move_base" name="move_base" output="screen">
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/local_costmap_lidar_filtered.yaml" command="load"/>
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/global_costmap_lidar_filtered.yaml" command="load"/>
+
+            <!-- Local Planner -->
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/local_planner.yaml" command="load"/>
+            <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
+            <rosparam param="recovery_behaviors">
+                [
+                    {name: conservative_reset, type: clear_costmap_recovery/ClearCostmapRecovery},
+                    {name: move_slow, type: move_slow_and_clear/MoveSlowAndClear},
+                    {name: rotate_recovery, type: rotate_recovery/RotateRecovery},
+                    {name: aggressive_reset, type: clear_costmap_recovery/ClearCostmapRecovery}
+                ]
+            </rosparam>
+            <param name="controller_frequency" value="10.0"/>
+
+            <!--Global Planner-->
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/global_planner.yaml" command="load"/>
+            <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+            <param name ="planner_frequency" value="1.0"/>
+        </node>
+    </group>
+
+    <group if = "$(eval arg('planner') == 'traj')">
+        <node pkg="move_base" type="move_base" name="move_base" output="screen">
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/local_costmap_lidar_filtered.yaml" command="load"/>
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/global_costmap_lidar_filtered.yaml" command="load"/>
+
+            <!-- Local Planner -->
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/local_planner.yaml" command="load"/>
+            <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
+            <rosparam param="recovery_behaviors">
+                [
+                    {name: conservative_reset, type: clear_costmap_recovery/ClearCostmapRecovery},
+                    {name: move_slow, type: move_slow_and_clear/MoveSlowAndClear},
+                    {name: rotate_recovery, type: rotate_recovery/RotateRecovery},
+                    {name: aggressive_reset, type: clear_costmap_recovery/ClearCostmapRecovery}
+                ]
+            </rosparam>
+            <param name="controller_frequency" value="10.0"/>
+
+            <!--Global Planner-->
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/global_planner.yaml" command="load"/>
+            <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+            <param name ="planner_frequency" value="1.0"/>
+        </node>
+    </group>
+
+    <group if = "$(eval arg('planner') == 'asr')">
+        <node pkg="asr_move_base" type="move_base" name="move_base" output="screen" respawn="false">
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/costmap_common_asr.yaml" command="load" ns="global_costmap"/>
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/costmap_common_asr.yaml" command="load" ns="local_costmap"/>
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/local_costmap_asr.yaml" command="load"/>
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/global_costmap_asr.yaml" command="load"/>
+
+            <!-- Local Planner -->
+            <rosparam file="$(find wheelchair_simulation_navegation)/params/local_planner.yaml" command="load"/>
+            <param name="base_local_planner" value="ftc_local_planner/FTCPlanner"/>
+            <param name="controller_frequency" value="5"/>
+
+             <!--Global Planner-->
+            <param name="base_global_planner" value="navfn/NavfnROS"/>
+            <param name="planner_frequency" value="5"/>
+        </node>
+    </group>
+
+</launch>

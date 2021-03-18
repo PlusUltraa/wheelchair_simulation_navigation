@@ -1,0 +1,12 @@
+obstacle_range: 5.0
+raytrace_range: 3.0
+robot_radius: 1
+
+transform_tolerance : 2.0
+
+observation_sources : lrf_sensor
+lrf_sensor : 
+    data_type: LaserScan
+    topic: scan
+    marking: true
+    clearing: true
