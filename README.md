@@ -25,4 +25,4 @@
     ```bash
     $ roslaunch wheelchair_simulation_navegation navegation.launch planner:=teb world:=LVL_Two.yaml
     ```
-You can use other worlds that all ready exists in the [worlds] folder. But you must be careful to also change the map that is being used in the navigation. The maps are located in the [maps] folder
+You can use other worlds that all ready exists in the [worlds](https://github.com/PlusUltraa/wheelchair_simulation_navigation/tree/master/worlds) folder. But you must be careful to also change the map that is being used in the navigation. The maps are located in the [maps](https://github.com/PlusUltraa/wheelchair_simulation_navigation/tree/master/maps) folder
