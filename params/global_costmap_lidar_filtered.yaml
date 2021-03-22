@@ -1,9 +1,9 @@
 global_costmap :
     update_frequency : 1
-    footprint_padding: 0.09
+    footprint_padding: 0.16
 
     inflation_layer_global :
-        inflation_radius: 3.0 #2.0
+        inflation_radius: 2.0 #3.0
         cost_scaling_factor: 5.0
 
     plugins:

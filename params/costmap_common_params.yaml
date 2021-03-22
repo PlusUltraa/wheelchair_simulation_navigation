@@ -1,4 +1,4 @@
-footprint : [[0.75, 0.5], [0.75, -0.5], [-0.6, -0.5], [-0.6, 0.5]]
+footprint : [[0.72, 0.5], [0.72, -0.5], [-0.62, -0.5], [-0.62, 0.5]]
 #footprint : [[0.72, 0.74], [0.72, -0.74], [-0.72, -0.74], [-0.72, 0.74]]
 #robot_radius: ir_of_robot
 
@@ -17,10 +17,10 @@ obstacle_layer :
     raytrace_range: 4.0
     max_obstacle_height : 2.0
     track_unknown_space : true
-    
+
     observation_sources : lrf_sensor
-    
-    lrf_sensor : 
+
+    lrf_sensor :
         data_type: LaserScan
         topic: scan
         marking: true
