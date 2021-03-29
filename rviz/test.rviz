@@ -359,6 +359,15 @@ Visualization Manager:
           Use Fixed Frame: true
           Use rainbow: true
           Value: true
+        - Class: rviz/Marker
+          Enabled: true
+          Marker Topic: /move_base/MpcLocalPlannerROS/mpc_markers
+          Name: Marker
+          Namespaces:
+            PointObstacles: true
+            RobotFootprintModel: true
+          Queue Size: 100
+          Value: true
       Enabled: true
       Name: Laser
     - Class: rviz/Group

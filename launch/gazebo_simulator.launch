@@ -2,6 +2,7 @@
 	<!-- Arguments -->
 	<arg name="node_start_delay" 	default="10.0" />
 	<arg name="world" 				default="LVL_Two.world"/>
+	<arg name="slam"				default="false"/>
 
 	<!-- WheelChair Coordenates -->
 	<arg name="x" 					default="0"/>
@@ -40,9 +41,9 @@
 	</node>
 
 	<!-- SLAM -->
-	<!--node pkg="iris_rtk_ros" type="pf_slam2d_ros" name="mapping" output="screen">
+	<node pkg="iris_rtk_ros" type="pf_slam2d_ros" name="mapping" output="screen" if="$(arg slam)">
         <param name="scan_topic" value="scan"/>
-    </node-->
+    </node>
 
 	<!--RVIZ Vizualisation-->
 	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchair_simulation_navegation)/rviz/test.rviz"/>

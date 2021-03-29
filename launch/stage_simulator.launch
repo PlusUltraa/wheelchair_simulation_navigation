@@ -58,6 +58,26 @@
         </node>
     </group>
 
+	<group if = "$(eval arg('planner') == 'mpc')">
+		<node pkg="move_base" type="move_base" name="move_base" output="screen">
+			<rosparam file="$(find wheelchair_simulation_navegation)/params/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+			<rosparam file="$(find wheelchair_simulation_navegation)/params/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+			<rosparam file="$(find wheelchair_simulation_navegation)/params/local_costmap_lidar_filtered.yaml" command="load"/>
+			<rosparam file="$(find wheelchair_simulation_navegation)/params/global_costmap_lidar_filtered.yaml" command="load"/>
+
+			<!-- Local Planner -->
+			<rosparam file="$(find wheelchair_simulation_navegation)/params/local_planner.yaml" command="load"/>
+			<param name="base_local_planner" value="mpc_local_planner/MpcLocalPlannerROS"/>
+			<param name="controller_frequency" value="10.0"/>
+			<param name="clearing_rotation_allowed" value="true" /> <!-- Robot is able to rotate in place -->
+
+			<!--Global Planner-->
+			<rosparam file="$(find wheelchair_simulation_navegation)/params/global_planner.yaml" command="load"/>
+			<param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+			<param name ="planner_frequency" value="1.0"/>
+		</node>
+	</group>
+
     <group if = "$(eval arg('planner') == 'dwa')">
         <node pkg="move_base" type="move_base" name="move_base" output="screen">
             <rosparam file="$(find wheelchair_simulation_navegation)/params/costmap_common_params.yaml" command="load" ns="global_costmap"/>
