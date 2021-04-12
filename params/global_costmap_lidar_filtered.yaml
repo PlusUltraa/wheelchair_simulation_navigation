@@ -1,6 +1,6 @@
 global_costmap :
     update_frequency : 1
-    footprint_padding: 0.16
+    footprint_padding: 0.1
 
     inflation_layer_global :
         inflation_radius: 2.0 #3.0

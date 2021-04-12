@@ -37,7 +37,7 @@
             <!--Global Planner-->
             <rosparam file="$(find wheelchair_simulation_navegation)/params/global_planner.yaml" command="load"/>
             <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
-            <param name ="planner_frequency" value="0.033"/>
+            <param name ="planner_frequency" value="3.0"/>
         </node>
     </group>
 
