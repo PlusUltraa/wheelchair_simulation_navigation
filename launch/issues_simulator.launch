@@ -3,6 +3,7 @@
     <arg name="world"       default="LVL_Six"/>
     <arg name="planner"     default="teb"/>
     <arg name="problem"     default="1"/>
+    <arg name="slam"        default="false"/>
 
     <group if="$(eval arg('problem') == 1)">
         <include file="$(find wheelchair_simulation_navegation)/launch/gazebo_simulator.launch">
@@ -14,12 +15,12 @@
             <arg name="yaw" 	default="0"/>
 
             <arg name="world"   default="$(arg world).world"/>
-        	<arg name="slam"    default="false"/>
         </include>
 
         <include file="$(find wheelchair_simulation_navegation)/launch/navegation.launch">
             <arg name="planner" default="$(arg planner)"/>
             <arg name="world"   default="$(arg world).yaml"/>
+            <arg name="slam"    default="$(arg slam)"/>
         </include>
     </group>
 
@@ -33,12 +34,12 @@
             <arg name="yaw" 	default="0"/>
 
             <arg name="world"   default="$(arg world).world"/>
-        	<arg name="slam"    default="false"/>
         </include>
 
         <include file="$(find wheelchair_simulation_navegation)/launch/navegation.launch">
             <arg name="planner" default="$(arg planner)"/>
             <arg name="world"   default="$(arg world).yaml"/>
+            <arg name="slam"    default="$(arg slam)"/>
         </include>
     </group>
 
@@ -52,12 +53,12 @@
             <arg name="yaw" 	default="3.14"/>
 
             <arg name="world"   default="$(arg world).world"/>
-        	<arg name="slam"    default="false"/>
         </include>
 
         <include file="$(find wheelchair_simulation_navegation)/launch/navegation.launch">
             <arg name="planner" default="$(arg planner)"/>
             <arg name="world"   default="$(arg world).yaml"/>
+            <arg name="slam"    default="$(arg slam)"/>
         </include>
     </group>
 </launch>

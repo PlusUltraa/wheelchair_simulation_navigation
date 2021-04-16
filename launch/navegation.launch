@@ -4,22 +4,22 @@
     <!--Arguments-->
     <arg name="planner" default="teb"/>
     <arg name="world"   default="LVL_Two.yaml"/>
+    <arg name="slam"    default="false"/>
 
-    <!-- Map Server -->
-    <node name="map_server" pkg="map_server" type="map_server" args="$(find wheelchair_simulation_navegation)/maps/$(arg world)"/>
+    <group unless="$(arg slam)">
+        <!-- Map Server -->
+        <node name="map_server" pkg="map_server" type="map_server" args="$(find wheelchair_simulation_navegation)/maps/$(arg world)"/>
 
-    <!-- Localization -->
-    <node pkg="iris_lama_ros" type="loc2d_ros" name="local" output="screen">
+        <!-- Localizatio and Mapping -->
+        <node pkg="iris_lama_ros" type="loc2d_ros" name="local" output="screen">
+            <param name="scan_topic" value="scan"/>
+        </node>
+    </group>
+
+    <node pkg="iris_lama_ros" type="slam2d_ros" name="local" output="screen" if="$(arg slam)">
         <param name="scan_topic" value="scan"/>
+        <param name="global_frame_id" value="map" />
     </node>
-    <!--node pkg="iris_rtk_ros" type="loc2d_ros" name="local" output="screen">
-        <param name="scan_topic" value="scan"/>
-    </node-->
-    <!--node name="loc" pkg="amcl" type="amcl" output="screen">
-        <param name="scan" value="scan"/>
-        <rosparam file="$(find wheelchair_simulation_navegation)/params/amcl.yaml"/>
-        <remap from="amcl_pose" to="pose"/>
-    </node-->
 
     <!-- move_base -->
     <group if = "$(eval arg('planner') == 'teb')">
