@@ -22,6 +22,8 @@
             <arg name="world"   default="$(arg world).yaml"/>
             <arg name="slam"    default="$(arg slam)"/>
         </include>
+
+        <node pkg="wheelchair_simulation_navegation" type="initialPoser.sh" name="inicialPoser" args="0.529886 0.677173 0 0 0 2.34981"/>
     </group>
 
     <group if="$(eval arg('problem') == 2)">
@@ -41,6 +43,8 @@
             <arg name="world"   default="$(arg world).yaml"/>
             <arg name="slam"    default="$(arg slam)"/>
         </include>
+
+        <node pkg="wheelchair_simulation_navegation" type="initialPoser.sh" name="inicialPoser" args="-6.283480 -4.361756 0 0 0 2.349810"/>
     </group>
 
     <group if="$(eval arg('problem') == 3)">
@@ -60,5 +64,7 @@
             <arg name="world"   default="$(arg world).yaml"/>
             <arg name="slam"    default="$(arg slam)"/>
         </include>
+
+        <node pkg="wheelchair_simulation_navegation" type="initialPoser.sh" name="inicialPoser" args="-8.334184 3.917321 0 0 0 5.48981"/>
     </group>
 </launch>
