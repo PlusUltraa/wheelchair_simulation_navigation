@@ -45,6 +45,7 @@ int main(int argc, char **argv){
         ros::spinOnce();
         loop_rate.sleep();
         ++count;
+        
         if(count > 50){
             break;
         }

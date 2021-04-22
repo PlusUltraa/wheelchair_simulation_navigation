@@ -125,10 +125,14 @@ include_directories(
 include_directories(SYSTEM ${EIGEN3_INCLUDE_DIRS})
 
 ## Declare a C++ library
-add_library(${PROJECT_NAME}
+#add_library(${PROJECT_NAME}_1
 #   src/${PROJECT_NAME}/wheelchair_simulation_navegation.cpp
-    script/InitialPoser.cpp
-)
+#    script/InitialPoser.cpp
+#)
+#add_library(${PROJECT_NAME}_2
+#   src/${PROJECT_NAME}/wheelchair_simulation_navegation.cpp
+#    script/GoalPose.cpp
+#)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -139,6 +143,7 @@ add_library(${PROJECT_NAME}
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(Poser script/InitialPoser.cpp)
+add_executable(Goal script/GoalPose.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -153,7 +158,11 @@ add_executable(Poser script/InitialPoser.cpp)
 ## Specify libraries to link a library or executable target against
 target_link_libraries(Poser
    ${catkin_LIBRARIES}
-   ${PROJECT_NAME}
+#   ${PROJECT_NAME}_1
+)
+target_link_libraries(Goal
+   ${catkin_LIBRARIES}
+#   ${PROJECT_NAME}_2
 )
 
 #############
