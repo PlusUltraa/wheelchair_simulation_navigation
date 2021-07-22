@@ -1,0 +1,42 @@
+<launch>
+    <!-- To work in Stage -->
+    <param name="/use_sim_time"     value="true"/>
+
+    <!-- Arguments -->
+    <arg name="node_start_delay" 	default="10.0" />
+    <arg name="world"               default="iris"/>
+
+    <!-- Rviz -->
+	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchair_simulation_navegation)/rviz/stage.rviz" output="screen"/>
+
+    <!-- Stage -->
+	<node pkg="stage_ros" type="stageros" name="stage" args="$(find wheelchair_simulation_navegation)/stage_worlds/$(arg world).world" output="screen">
+        <remap from="base_scan" to="scan"/>
+    </node>
+
+    <!-- Map Server -->
+	<node pkg="map_server" type="map_server" name="map_server" args="$(find wheelchair_simulation_navegation)/stage_worlds/$(arg world).yaml"/>
+    
+    <!-- SLAM -->
+    <node pkg="iris_lama_ros" type="loc2d_ros" name="local" output="screen">
+		<param name="scan_topic" value="scan"/>
+	</node>
+
+    <!-- Move Base -->
+    <node pkg="move_base" type="move_base" name="move_base" output="screen">
+        <rosparam file="$(find wheelchair)/params/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+        <rosparam file="$(find wheelchair)/params/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+        <rosparam file="$(find wheelchair)/params/local_costmap_lidar_filtered.yaml" command="load"/>
+        <rosparam file="$(find wheelchair)/params/global_costmap_lidar_filtered.yaml" command="load"/>
+
+        <!-- Local Planner -->
+        <rosparam file="$(find wheelchair)/params/local_planner.yaml" command="load"/>
+        <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/>
+        <param name="controller_frequency" value="10.0"/>
+
+        <!--Global Planner-->
+        <rosparam file="$(find wheelchair)/params/global_planner.yaml" command="load"/>
+        <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+        <param name ="planner_frequency" value="1.0"/>
+    </node>
+</launch>

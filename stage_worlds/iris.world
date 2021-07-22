@@ -1,0 +1,107 @@
+name "IRIS"
+
+# simulation timestep in milliseconds
+interval_sim 100
+
+# stop the simulation after this many simulated seconds have elapsed
+quit_time 0
+
+# set the resolution of the underlying raytrace model in meters
+resolution 0.01
+
+#if non-zero, print the simulation time on stdout every $show_clock_interval updates
+#show_clock 0
+
+#sets the number of updates between printing the time on stdoutm, if $show_clock is enabled
+show_clock_interval 100
+
+#the number of worker threads to spawn. Some models can be updated in parallel (e.g. laser, ranger), and running 2 or more threads here may make the simulation run faster
+threads 2
+
+model(
+	name "Iris"
+
+	bitmap "iris.png"
+	size [32 20.8 3]
+
+	pose [0 0 0 0]
+
+	origin [0.000 0.000 0.000 0.000]
+
+	color "gray30"
+
+	boundary 0
+
+	#GUI
+	gui_move 0
+	gui_outline 1
+
+	#Estando a 1 o modelo pode ser visto pelos sensores
+	ranger_return 1.000
+)
+
+define RPLidar ranger(
+	sensor(
+        size [0.072 0.072 0.072]
+		range [0 20]
+		fov 360
+		samples 360
+	)
+
+	color "blue"
+)
+
+define wheelchair position(
+    size [1.131 0.642 1]
+    
+    origin [0.1525 0.000 0.000 0.000]
+
+    block(
+        points 10
+        point[0] [0.438 0.321]
+        point[1] [0.438 0.171]
+        point[2] [0.718 0.171]
+        point[3] [0.718 -0.155]
+        point[4] [0.578 -0.321]
+        point[5] [-0.377 -0.321]
+        point[6] [-0.377 0.215]
+        point[7] [-0.413 0.215]
+        point[8] [-0.413 0.321]
+        point[9] [-0.377 0.321]
+        z [0 1]
+    )
+
+    #Select differential-steer model(like a Pioneer), omnidirectional mode or carlike (velocity and steering angle), drive "diff", "omni" or "car"
+
+	drive "car"
+
+  	#If "gps" the position model reports its position with perfect accuracy.
+  	#If "odom", a simple odometry model is used and position data drifts from the ground truth over time.
+  	#The odometry model is parameterized by the odom_error property
+
+  	localization "gps"
+
+	#Odometry error model parameters,
+	#Only used if localization is set to "odom"
+	#Parameters for the odometry error model used when specifying localization "odom".
+	#Each value is the maximum proportion of error in intergrating x, y, and theta velocities to compute odometric position estimate.
+	#For each axis, if the the value specified here is E, the actual proportion is chosen at startup at random in the range -E/2 to +E/2.
+	#Note that due to rounding errors, setting these values to zero does NOT give you perfect localization - for that you need to choose localization "gps".
+	
+    odom_error [0.001 0.0003 00.00 0.2]
+
+	gui_nose 1
+
+    color "green"
+
+    RPLidar( pose [0 0 -1 0] )
+
+	ranger_return 0
+)
+
+wheelchair(
+    name "IntellWheels"
+    drive "diff"
+    localization "odom"
+	pose [-4 3 0 -90]
+)
