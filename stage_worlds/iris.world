@@ -40,6 +40,16 @@ model(
 	ranger_return 1.000
 )
 
+define obstacle model(
+	name "Obstacle"
+	pose [0.0 0.0 0.0 0.0]
+	size [1.0 1.0 3.00]
+	gui_node 0
+	color "red"
+
+	ranger_return 1.000
+)
+
 define RPLidar ranger(
 	sensor(
         size [0.072 0.072 0.072]
@@ -103,5 +113,8 @@ wheelchair(
     name "IntellWheels"
     drive "diff"
     localization "odom"
-	pose [-4 3 0 -90]
+	#pose [-4 3 0 -90]
+	pose [4.0 5.0 0.0 180]
 )
+
+obstacle(pose [-5.5 5.5 0.0 0.0])
