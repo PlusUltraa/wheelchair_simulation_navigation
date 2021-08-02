@@ -43,7 +43,7 @@ model(
 define obstacle model(
 	name "Obstacle"
 	pose [0.0 0.0 0.0 0.0]
-	size [1.0 1.0 3.00]
+	size [0.54 0.42 3.00]
 	gui_node 0
 	color "red"
 
@@ -117,4 +117,4 @@ wheelchair(
 	pose [4.0 5.0 0.0 180]
 )
 
-obstacle(pose [-5.5 5.5 0.0 0.0])
+obstacle(pose [-5 5.5 0.0 90.0])

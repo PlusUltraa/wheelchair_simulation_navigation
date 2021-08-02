@@ -24,8 +24,11 @@
     
     <!-- SLAM -->
     <node pkg="iris_lama_ros" type="loc2d_ros" name="local" output="screen">
-		<param name="scan_topic" value="scan"/>
+		<param name="scan_topic"        value="scan"/>
 	</node>
+
+    <!-- Tf adjustments -->
+    <node pkg="tf" type="static_transform_publisher" name="world_to_map" args="-1 4 0 1.83 0 0 world map 100" />
 
     <!-- Move Base -->
     <node pkg="move_base" type="move_base" name="move_base" output="screen">
