@@ -28,7 +28,7 @@
 	</node>
 
     <!-- Tf adjustments -->
-    <node pkg="tf" type="static_transform_publisher" name="world_to_map" args="-1 4 0 1.83 0 0 world map 100" />
+    <node pkg="tf" type="static_transform_publisher" name="world_to_map" args="-1.454 3.811 0 1.83 0 0 world map 100" />
 
     <!-- Move Base -->
     <node pkg="move_base" type="move_base" name="move_base" output="screen">
