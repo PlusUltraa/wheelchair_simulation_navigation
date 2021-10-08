@@ -41,10 +41,10 @@
 
     <!-- Move Base -->
     <node pkg="move_base" type="move_base" name="$(arg move_base_name)" output="screen" if="$(eval arg('enable_move_base') == true)">
-        <rosparam file="$(find wheelchair)/params/costmap_common_params.yaml" command="load" ns="global_costmap"/>
-        <rosparam file="$(find wheelchair)/params/costmap_common_params.yaml" command="load" ns="local_costmap"/>
-        <rosparam file="$(find wheelchair)/params/local_costmap_lidar_filtered.yaml" command="load"/>
-        <rosparam file="$(find wheelchair)/params/global_costmap_lidar_filtered.yaml" command="load"/>
+        <rosparam file="$(find wheelchair)/params/costmap_common_params.yaml"           command="load"  ns="global_costmap"/>
+        <rosparam file="$(find wheelchair)/params/costmap_common_params.yaml"           command="load"  ns="local_costmap"/>
+        <rosparam file="$(find wheelchair)/params/local_costmap_lidar_filtered.yaml"    command="load"/>
+        <rosparam file="$(find wheelchair)/params/global_costmap_lidar_filtered.yaml"   command="load"/>
 
         <!-- Local Planner -->
         <rosparam file="$(find wheelchair)/params/local_planner.yaml" command="load"/>
