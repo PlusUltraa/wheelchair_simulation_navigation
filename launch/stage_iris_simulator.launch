@@ -4,34 +4,43 @@
 
     <!-- Arguments -->
     <arg name="node_start_delay" 	default="10.0" />
-    <arg name="world"               default="iris"/>
+    <arg name="map"                 default="iris"/>
+    <arg name="world"               default="$(arg map)"/>
     <arg name="planner"             default="teb"/>
+    <arg name="enable_move_base"    default="true"/>
 
-    <arg name="MoveBasePlanner" value="teb_local_planner/TebLocalPlannerROS" if = "$(eval arg('planner') == 'teb')"/>
-    <arg name="MoveBasePlanner" value="dwa_local_planner/DWAPlannerROS" if = "$(eval arg('planner') == 'dwa')"/>
+
+    <arg name="rviz_name"           default="rviz"/>
+    <arg name="move_base_name"      default="move_base"/>
+    <arg name="slam_name"           default="local"/>
+    <arg name="map_server_name"     default="map_server"/>
+    <arg name="stage_name"          default="stage"/>
+
+    <arg name="MoveBasePlanner" value="teb_local_planner/TebLocalPlannerROS"    if = "$(eval arg('planner') == 'teb')"/>
+    <arg name="MoveBasePlanner" value="dwa_local_planner/DWAPlannerROS"         if = "$(eval arg('planner') == 'dwa')"/>
     <arg name="MoveBasePlanner" value="base_local_planner/TrajectoryPlannerROS" if = "$(eval arg('planner') == 'traj')"/>
 
     <!-- Rviz -->
-	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchair_simulation_navegation)/rviz/stage.rviz" output="screen"/>
+	<node pkg="rviz" type="rviz" name="$(arg rviz_name)" args="-d $(find wheelchair_simulation_navegation)/rviz/stage.rviz" output="screen"/>
 
     <!-- Stage -->
-	<node pkg="stage_ros" type="stageros" name="stage" args="$(find wheelchair_simulation_navegation)/stage_worlds/$(arg world).world" output="screen">
+	<node pkg="stage_ros" type="stageros" name="$(arg stage_name)" args="$(find wheelchair_simulation_navegation)/stage_worlds/$(arg world).world" output="screen">
         <remap from="base_scan" to="scan"/>
     </node>
 
     <!-- Map Server -->
-	<node pkg="map_server" type="map_server" name="map_server" args="$(find wheelchair_simulation_navegation)/stage_worlds/$(arg world).yaml"/>
+	<node pkg="map_server" type="map_server" name="$(arg map_server_name)" args="$(find wheelchair_simulation_navegation)/stage_worlds/$(arg map).yaml"/>
     
     <!-- SLAM -->
-    <node pkg="iris_lama_ros" type="loc2d_ros" name="local" output="screen">
-		<param name="scan_topic"        value="scan"/>
+    <node pkg="iris_lama_ros" type="loc2d_ros" name="$(arg slam_name)" output="screen">
+		<param name="scan_topic" value="scan"/>
 	</node>
 
     <!-- Tf adjustments -->
     <node pkg="tf" type="static_transform_publisher" name="world_to_map" args="-1.454 3.811 0 1.83 0 0 world map 100" />
 
     <!-- Move Base -->
-    <node pkg="move_base" type="move_base" name="move_base" output="screen">
+    <node pkg="move_base" type="move_base" name="$(arg move_base_name)" output="screen" if="$(eval arg('enable_move_base') == true)">
         <rosparam file="$(find wheelchair)/params/costmap_common_params.yaml" command="load" ns="global_costmap"/>
         <rosparam file="$(find wheelchair)/params/costmap_common_params.yaml" command="load" ns="local_costmap"/>
         <rosparam file="$(find wheelchair)/params/local_costmap_lidar_filtered.yaml" command="load"/>
