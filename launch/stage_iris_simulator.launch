@@ -36,6 +36,8 @@
 		<param name="scan_topic" value="scan"/>
 	</node>
 
+	<node pkg="rosservice" type="rosservice" name="global_loc" args="call --wait /global_localization"/>
+
     <!-- Tf adjustments -->
     <node pkg="tf" type="static_transform_publisher" name="world_to_map" args="-1.454 3.811 0 1.83 0 0 world map 100" />
 
